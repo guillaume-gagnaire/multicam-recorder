@@ -5,7 +5,7 @@
             <el-option v-for="device in $store.state.devices.video" :key="device.id" :value="device.id" :label="device.label"></el-option>
         </el-select>
         <div class="video">
-            <video ref="video" autoplay></video>
+            <video ref="video" muted autoplay></video>
         </div>
         <el-button size="mini" type="danger" @click="$emit('delete')">
             Delete camera
@@ -14,11 +14,15 @@
 </template>
 
 <script>
+import RecordRTC from 'recordrtc'
+import path from 'path'
+
 export default {
-    props: ['value'],
+    props: ['value', 'bus'],
     data() {
         return {
-            val: this.value
+            val: this.value,
+            stream: null
         }
     },
     watch: {
@@ -40,6 +44,7 @@ export default {
     methods: {
         async handleVideo() {
             if (this.val.deviceId === '') {
+                this.stream = null
                 return
             }
 
@@ -57,8 +62,11 @@ export default {
 
             const stream = await navigator.mediaDevices.getUserMedia(constraints)
             if (!stream) {
+                this.stream = null
                 return
             }
+
+            this.stream = stream
 
             try {
                 this.$refs.video.srcObject = stream
@@ -69,6 +77,22 @@ export default {
     },
     mounted() {
         this.handleVideo()
+        this.bus.on('record', _ => {
+            if (this.stream === null) {
+                return
+            }
+            this.recorder = RecordRTC(this.stream, {
+                type: 'video',
+                mimeType: 'video/x-matroska;codecs=avc1'
+            })
+            this.recorder.startRecording()
+        })
+        this.bus.on('stop', folderName => {
+            this.recorder.stopRecording(_ => {
+                const blob = this.recorder.getBlob()
+                console.log(blob)
+            })
+        })
     }
 }
 </script>
