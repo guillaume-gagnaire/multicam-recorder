@@ -81,7 +81,7 @@ export default {
             if (this.stream === null) {
                 return
             }
-            this.recorder = RecordRTC(this.stream, {
+            this.recorder = RecordRTC.RecordRTCPromisesHandler(this.stream, {
                 type: 'video',
                 mimeType: 'video/x-matroska;codecs=avc1'
             })
@@ -91,6 +91,7 @@ export default {
             this.recorder.stopRecording(_ => {
                 const blob = this.recorder.getBlob()
                 console.log(blob)
+                this.recorder.destroy()
             })
         })
     }
