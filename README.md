@@ -1,22 +1,22 @@
 # multicam-recorder
 
-> Multi camera recorder
+> Multi-camera recording tool
 
 #### Build Setup
 
 ``` bash
 # install dependencies
-npm install
+yarn install
 
-# serve with hot reload at localhost:9080
-npm run dev
+# serve app with hot reload
+yarn run dev
 
 # build electron application for production
-npm run build
+yarn run build
 
 
 ```
 
 ---
 
-This project was generated with [electron-vue](https://github.com/SimulatedGREG/electron-vue)@[45a3e22](https://github.com/SimulatedGREG/electron-vue/tree/45a3e224e7bb8fc71909021ccfdcfec0f461f634) using [vue-cli](https://github.com/vuejs/vue-cli). Documentation about the original structure can be found [here](https://simulatedgreg.gitbooks.io/electron-vue/content/index.html).
+This project was generated with [electron-nuxt](https://github.com/michalzaq12/electron-nuxt) v1.7.0 using [vue-cli](https://github.com/vuejs/vue-cli). Documentation about the original structure can be found [here](https://github.com/michalzaq12/electron-nuxt/blob/master/README.md).
